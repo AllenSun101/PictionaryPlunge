@@ -10,7 +10,7 @@ def loadData():
     data = pd.DataFrame(columns=columns)
 
     # Cycle through all the image categories and pick the first 500 images
-    num_images = 100
+    num_images = 20
     current_directory = os.getcwd()
 
     dataset_path = os.path.join(current_directory, '..', 'simplified')
@@ -30,7 +30,7 @@ def loadData():
                 new_row = {'Image': drawing, 'Label': word}
                 data.loc[len(data.index)] = new_row 
         count+= 1
-        if count == 50:
+        if count == 5:
             break
     
     file = current_directory + "/data2.csv"

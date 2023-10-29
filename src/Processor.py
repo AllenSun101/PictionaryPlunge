@@ -14,7 +14,7 @@ def strokes_to_image(strokes, image_size, line_width):
 	return image
 
 
-def strokes_to_image_steps(strokes, image_size, line_width, index):
+def strokes_to_image_steps(strokes, index, image_size, line_width):
 	image = Image.new('L', (image_size, image_size), 255)
 	draw = ImageDraw.Draw(image)
 
@@ -58,6 +58,9 @@ class Processor:
 	
 	def strokes_to_image(self, strokes):
 		return strokes_to_image(strokes, self._image_size, self._line_width)
+	
+	def strokes_to_image_steps(self, strokes, index):
+		return strokes_to_image_steps(strokes, index, self._image_size, self._line_width)
 	
 	def image_to_array(self, img):
 		return image_to_array(img, self._image_size)

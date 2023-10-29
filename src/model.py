@@ -111,14 +111,15 @@ def get_mappings():
         image = row["Image"]
         image = ast.literal_eval(image)
 
-        # Process the image using the Processor instance
-        process_result = processor.strokes_to_image(image)
-        process_result = processor.image_to_array(process_result)
+        for i in range(len(image)):
+            # Process the image using the Processor instance
+            process_result = processor.strokes_to_image_steps(image, i + 1)
+            process_result = processor.image_to_array(process_result)
 
-        # Do something with the process_result if needed
-        label = row["Label"]
+            # Do something with the process_result if needed
+            label = row["Label"]
 
-        data.iloc[index] = {"Image": process_result, "Label": label, 'Strokes': row['Image']}
+            data.iloc[index] = {"Image": process_result, "Label": label, 'Strokes': row['Image']}
     
     # Define the size of the training and test sets
     train_size = int(0.8 * len(data))
@@ -129,8 +130,8 @@ def get_mappings():
     # Use random_split to create training and test datasets
     train_dataset, test_dataset = random_split(data, [train_size, test_size])
    
-    train_dataloader = DataLoader(train_dataset, batch_size=256, shuffle=True)
-    test_dataloader = DataLoader(test_dataset, batch_size=256, shuffle=True)
+    train_dataloader = DataLoader(train_dataset, batch_size=128, shuffle=True)
+    test_dataloader = DataLoader(test_dataset, batch_size=128, shuffle=True)
 
     return train_dataloader, test_dataloader
 
@@ -178,8 +179,8 @@ def train(train_dataloader):
 
         # Print the loss for each epoch
         print(f'Epoch {epoch+1}/{num_epochs}, Loss: {loss.item()}')
-        accuracy = correct / total 
-        print(accuracy)
+    accuracy = correct / total 
+    print(accuracy)
 
     # Optionally, save the trained model
     torch.save(model.state_dict(), 'conv_lstm_model.pth')
