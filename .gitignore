@@ -1,3 +1,4 @@
 /pictionary_stroke_data
 /simplified
 src/conv_lstm_model.pth
+src/model.pth
